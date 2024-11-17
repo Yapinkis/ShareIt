@@ -2,8 +2,7 @@ package ru.practicum.item;
 
 import lombok.Data;
 import org.springframework.stereotype.Repository;
-import ru.practicum.user.User;
-import ru.practicum.utility.UtilityValidator;
+
 
 import java.util.*;
 
@@ -52,14 +51,14 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public List<ItemDTO> getAllFromUser(List<Long> keys) {
-        List<ItemDTO> DTOItems = new ArrayList<>();
+        List<ItemDTO> itemsDTO = new ArrayList<>();
         for (Long key : keys) {
             Item item = items.get(key);
             if (item != null) {
-                DTOItems.add(ItemMapper.toItemDTO(item));
+                itemsDTO.add(ItemMapper.toItemDTO(item));
             }
         }
-        return DTOItems;
+        return itemsDTO;
     }
 
 

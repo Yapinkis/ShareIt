@@ -21,15 +21,16 @@ public class UtilityValidator {
 
     private final UserRepositoryImpl userRepository;
     private final ItemRepositoryImpl itemRepository;
-    // Возможно, исходя из темы урока, речь шла о создании мета-аннотаций при валидации каких-то
-    // необычных случаев по типу одинаковых email?
-    public void validateUser(User user) {
-        if (userRepository.getUsers().containsValue(user)) {
-            throw new ValidationException("Возникла ошибка валидации");
+
+    public void checkUser(User user) {
+        for (User checkUser : userRepository.getUsers().values()) {
+            if (checkUser.getEmail().equals(user.getEmail())) {
+                throw new ValidationException("Ошибка валидации, пользователь с данным email уже существует");
+            }
         }
     }
 
-    public void checkUser(Long id) {
+    public void checkUserId(Long id) {
         if (!userRepository.getUsers().containsKey(id)) {
             throw new EntityNotFoundException(String.format("Пользователь с id=%s не обнаружен", id));
         }
@@ -43,10 +44,11 @@ public class UtilityValidator {
         }
         throw new EntityNotFoundException("Предмет пользователя не был обнаружен");
     }
+
     public List<Long> getKeys(Long id) {
         List<Long> keys = new ArrayList<>();
         for (Item item: itemRepository.getItems().values()) {
-            if(Objects.equals(item.getOwner(), id)) {
+            if (Objects.equals(item.getOwner(), id)) {
                 keys.add(item.getId());
             }
         }

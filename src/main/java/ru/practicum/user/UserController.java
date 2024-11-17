@@ -13,22 +13,19 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public User create(@RequestBody @Valid User user) {
+    public UserDTO create(@RequestBody @Valid User user) {
         log.info("Создан пользователь ={}", user.getName());
         return userService.createUser(user);
     }
 
     @PatchMapping("/{id}")
-    public User update(@PathVariable Long id, @RequestBody User user) {
-        //Нужна ли здесь валидация? Просто тесты передают экземпляр user с email = null, а по условиям одного из тестов
-        //мы не можем создать экземпляр user с пустым email
-        User modifiedUser = userService.updateUser(id, user);
+    public UserDTO update(@PathVariable Long id, @RequestBody User user) {
         log.info("Пользовател c id ={} обвновлён в базе данных", id);
-        return modifiedUser;
+        return userService.updateUser(id, user);
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
+    public UserDTO getUser(@PathVariable Long id) {
         return userService.getUser(id);
     }
 

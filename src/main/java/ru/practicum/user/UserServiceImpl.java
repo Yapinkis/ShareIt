@@ -2,25 +2,31 @@ package ru.practicum.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.utility.UtilityValidator;
 
 @Service
 @RequiredArgsConstructor
+
 class UserServiceImpl implements UserService {
     private final UserRepository repository;
+    private final UtilityValidator utilityValidator;
 
     @Override
-    public User createUser(User user) {
+    public UserDTO createUser(User user) {
+        utilityValidator.checkUser(user);
         return repository.createUser(user);
     }
 
     @Override
-    public User getUser(Long id) {
+    public UserDTO getUser(Long id) {
         return repository.getUser(id);
     }
 
     @Override
-    public User updateUser(Long id, User user) {
-        return repository.updateUser(id, user);
+    public UserDTO updateUser(Long id, User user) {
+        utilityValidator.checkUser(user);
+        user.setId(id);
+        return repository.updateUser(user);
     }
 
     @Override
