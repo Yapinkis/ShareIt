@@ -24,14 +24,17 @@ public class ItemController {
     public ItemDTO update(@RequestBody Item item, @RequestHeader("X-Sharer-User-Id") Long id) {
         return itemService.update(item,id);
     }
+
     @GetMapping
     public List<ItemDTO> getAll(@RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemService.getAllFromUser(userId);
     }
+
     @GetMapping("/{id}")
     public ItemDTO get(@PathVariable Long id) {
         return itemService.get(id);
     }
+
     @GetMapping("/search")
     public List<ItemDTO> searchItem(@RequestParam("text") String search) {
         return itemService.searchItem(search);
